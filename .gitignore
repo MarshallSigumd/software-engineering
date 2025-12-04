@@ -6,3 +6,4 @@ Src/daily_muse_app/ios
 Src/daily_muse_app/test
 Src/daily_muse_server/daily_muse.db
 Src/daily_muse_server/node_modules
+node_modules

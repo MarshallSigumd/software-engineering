@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://222.20.103.65:3000';
+  // static const String baseUrl = 'http://localhost:3000';
+  static String get baseUrl {
+    return '';
+  }
 
   static Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();

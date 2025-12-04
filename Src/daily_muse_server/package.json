@@ -21,5 +21,16 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
+  },
+  "bin": {
+  "daily_muse_server": "./index.js"
+  },
+  "pkg": {
+  "targets": ["node18-win-x64"],
+  "output": "daily_muse_server",
+  "bin": "index.js",
+  "assets": ["web/**", "daily_muse.db"]
   }
 }
+
+

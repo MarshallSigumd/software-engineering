@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const schedule = require('node-schedule');
+// const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
@@ -12,10 +13,14 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-
+const webPath = path.join(path.dirname(process.execPath), 'web');
+app.use(express.static(webPath));
 
 // ==================== 数据库初始化 ====================
-const dbPath = path.join(__dirname, 'daily_muse.db');
+// const dbPath = path.join(__dirname, "daily_muse.db");
+// const dbPath = path.join(path.dirname(require.main.filename), 'daily_muse.db');
+const dbDir = path.dirname(process.execPath);
+const dbPath = path.join(dbDir, 'daily_muse.db');
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('数据库连接失败:', err.message);
@@ -825,16 +830,20 @@ app.post('/admin/quote/set-today/:id', authenticateToken, verifyAdmin, (req, res
   });
 });
 
-app.use(express.static(path.join(__dirname, '../daily_muse_app/build/web')));
+// app.use(express.static(path.join(__dirname, '../daily_muse_app/build/web')));
 
 // 处理 SPA 路由 - 所有未匹配的路由返回 index.html
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../daily_muse_app/build/web/index.html'));
+  res.sendFile(path.join(__dirname, './web/index.html'));
 });
 
 // ==================== 启动服务器 ====================
-app.listen(3000, '0.0.0.0', () => {
-  console.log('🚀 后端已启动，监听地址: 0.0.0.0:3000');
-  console.log('📱 其他设备可通过以下地址访问:');
-  console.log('   http://222.20.103.65:3000');
+app.listen(8080, '0.0.0.0', () => {
+  // console.log('🚀 后端已启动，监听地址: 0.0.0.0:3000');
+  // console.log('📱 其他设备可通过以下地址访问:');
+  // console.log('   http://localhost:3000');
+  console.log('后端已启动，端口 8080');
+  console.log('本机访问: http://localhost:8080');
+  console.log('网络访问: http://<服务器IP>:8080');
+  console.log('定时任务已启动，每天午夜00:00更新今日内容');
 });
